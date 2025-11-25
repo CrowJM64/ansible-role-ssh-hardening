@@ -1,38 +1,47 @@
-Role Name
-=========
+# Ansible Role for SSHD Hardening
+**Author/Maintainer:** Josh Murphy
 
-A brief description of the role goes here.
+## Overview
 
-Requirements
-------------
+This Ansible role hardens the SSHD Config by doing the below:
+```yaml
+- Disables Root SSH Login
+- Disables Empty Password Login
+- Disables Password Authentication
+- Enables Pubkey Authentication
+- Disables X11Forwarding
+- Sets a 5 Minute Inactivity Timeout on SSH Sessions
+- Sets SSH Allowed Users
+```
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## Supported Platforms and Derivatives
+The files changed should exist on every Redhat and Debian Distro. Below are the explicitly supported Distros.
+```yaml
+# RedHat
+EL - All Versions
+Fedora - All Versions
+Rocky - All Versions
+AlmaLinux - All Versions
 
-Role Variables
---------------
+# Debian
+Debian - All Versions
+Ubuntu - All Versions
+```
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## Example Playbook
 
-Dependencies
-------------
+```yaml
+- hosts: all
+  become: yes
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+  roles:
+    - role: system_ssh_hardening
+```
 
-Example Playbook
-----------------
+### From Ansible Galaxy
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```bash
+ansible-galaxy install crowjm64.system_ssh_hardening
+```
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This role was created and is maintained by **[CrowJM64](https://github.com/CrowJM64)**.

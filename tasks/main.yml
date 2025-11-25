@@ -1,2 +1,73 @@
 ---
-# tasks file for ssh-hardening
+########## SSH Hardening Tasks ##########
+- name: Disable Root SSH Login
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitRootLogin'
+    line: 'PermitRootLogin no'
+    backup: yes
+  register: restart_sshd
+
+- name: Disable Empty Password Login
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitEmptyPasswords'
+    line: 'PermitEmptyPasswords no'
+    backup: yes
+  register: restart_sshd
+
+- name: Disable Password Authentication
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+    backup: yes
+  register: restart_sshd
+
+- name: Enable Pubkey Authentication
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PubKeyAuthentication'
+    line: 'PubKeyAuthentication yes'
+    backup: yes
+  register: restart_sshd
+
+- name: Disable X11Forwarding
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?X11Forwarding'
+    line: 'X11Forwarding no'
+    backup: yes
+  register: restart_sshd
+
+- name: Set 5 Minute Timeout
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?ClientAliveInterval'
+    line: 'ClientAliveInterval 300'
+    backup: yes
+  register: restart_sshd
+
+- name: Set SSH Allowed Users
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?AllowUsers'
+    line: 'AllowUsers PLACEHOLDER'
+    backup: yes
+  register: restart_sshd
+
+- name: Restart SSHD With Changes (Debian)
+  ansible.builtin.systemd:
+    name: ssh
+    state: restarted
+  when: 
+    - restart_sshd is changed
+    - ansible_os_family == "Debian"
+
+- name: Restart SSHD With Changes (RHEL)
+  ansible.builtin.systemd:
+    name: sshd
+    state: restarted
+  when:
+    - restart_sshd is changed
+    - ansible_os_family == "RedHat"
