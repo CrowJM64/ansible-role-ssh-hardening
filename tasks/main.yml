@@ -4,7 +4,7 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?PermitRootLogin'
-    line: 'PermitRootLogin no'
+    line: 'PermitRootLogin {{ allow_root_ssh }}'
     backup: yes
   register: restart_sshd
 
@@ -12,7 +12,7 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?PermitEmptyPasswords'
-    line: 'PermitEmptyPasswords no'
+    line: 'PermitEmptyPasswords {{ allow_root_ssh }}'
     backup: yes
   register: restart_sshd
 
@@ -20,7 +20,7 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?PasswordAuthentication'
-    line: 'PasswordAuthentication no'
+    line: 'PasswordAuthentication {{ allow_password_auth }}'
     backup: yes
   register: restart_sshd
 
@@ -28,7 +28,7 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?PubKeyAuthentication'
-    line: 'PubKeyAuthentication yes'
+    line: 'PubKeyAuthentication {{ allow_pubkey_auth }}'
     backup: yes
   register: restart_sshd
 
@@ -36,7 +36,7 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?X11Forwarding'
-    line: 'X11Forwarding no'
+    line: 'X11Forwarding {{ allow_pubkey_auth }}'
     backup: yes
   register: restart_sshd
 
@@ -44,7 +44,7 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?ClientAliveInterval'
-    line: 'ClientAliveInterval 300'
+    line: 'ClientAliveInterval {{ client_alive_dur }}'
     backup: yes
   register: restart_sshd
 
@@ -52,7 +52,7 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?AllowUsers'
-    line: 'AllowUsers PLACEHOLDER'
+    line: 'AllowUsers {{ ssh_users }}'
     backup: yes
   register: restart_sshd
 

@@ -1,2 +1,12 @@
 ---
-# defaults file for ssh-hardening
+# User SSH Defaults
+ssh_key_path: ~/.ssh/id_ed25519.pub
+ssh_users: ansible # Enter the users you want to be able to SSH, ensure your ansible user is here along with other users that SSH to the server, or you may lock yourself out.
+
+# SSH Server Config Change Defaults
+allow_root_ssh: no # yes/no
+allow_empty_passwords: no # yes/no
+allow_password_auth: no # yes/no
+allow_pubkey_auth: yes # yes/no 
+allow_x11_fwd: no # yes/no
+client_alive_dur: 300 # Seconds to keep inactive SSH Session alive for.
