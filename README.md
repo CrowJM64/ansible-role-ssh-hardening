@@ -14,6 +14,11 @@ This Ansible role hardens the SSHD Config by doing the below:
 - Sets SSH Allowed Users
 ```
 
+## Dependencies
+- ansible.posix
+
+
+
 ## Supported Platforms and Derivatives
 The files changed should exist on every Redhat and Debian Distro. Below are the explicitly supported Distros.
 ```yaml
